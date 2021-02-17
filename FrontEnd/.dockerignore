@@ -1,0 +1,9 @@
+node_modules
+.git
+.gitignorenode_modules
+.git
+.gitignore
+dist
+e2e
+LICENSE
+README.md

@@ -1,0 +1,89 @@
+<!-- main app container -->
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>Lançamento de Dívidas</h2>
+                
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Cliente</label>
+                       <select 
+                          [attr.disabled]="updating == true ? true : null"
+                          class="form-select" 
+                          formControlName="customer" 
+                          aria-label="Default select example" 
+                          (change)="onChangeCustomerSelection($event.target.value)"
+                          [(ngModel)]="customerId"
+                          [ngClass]="{ 'is-invalid': submitted && f.customer.errors }">
+                          <option *ngFor="let customer of customers" value= {{customer.id}}>
+                            {{customer.name}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.customer.errors" class="invalid-feedback">
+                            <div *ngIf="f.customer.errors.required">Informe o cliente</div>
+                        </div>
+                      </div>
+
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="reason" class="form-label">Motivo</label>
+                            <input type="text" 
+                            formControlName="reason" 
+                            class="form-control" 
+                            [ngClass]="{ 'is-invalid': submitted && f.reason.errors }" />
+                            <div *ngIf="submitted && f.reason.errors" class="invalid-feedback">
+                                <div *ngIf="f.reason.errors.required">Informe um motivo</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="amount" class="form-label">Valor da Dívida</label>
+                            <input type="text" 
+                            formControlName="amount" 
+                            mask="separator" thousandSeparator="."
+                            prefix="R$ "
+                            class="form-control" 
+                            [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" />
+                            <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                                <div *ngIf="f.amount.errors.required">Informe o valor</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="debtDate" class="form-label">Data</label>
+                            <input 
+                            type="date" 
+                            formControlName="debtDate" 
+                            class="form-control" 
+                            [ngClass]="{ 'is-invalid': submitted && f.debtDate.errors }" />
+                            <div *ngIf="submitted && f.debtDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.debtDate.errors.required">Informe uma data</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div *ngIf="!updating" class="col-auto">
+                            <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary">Register</button>
+                        </div>
+
+                        <div *ngIf="updating" class="col-auto">
+                            <button [disabled]="registerForm.invalid" type="button" (click)="update()" class="btn btn-primary">Alterar</button>
+                        </div>
+    
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-success" (click)="newDebit()">Novo</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

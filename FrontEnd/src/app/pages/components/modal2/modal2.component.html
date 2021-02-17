@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ title }}</h4>
+    <button
+      *ngIf="type == 0"
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('ESC')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mensgem"></div>
+  <div class="modal-body">
+    <p>{{ message }}</p>
+  </div>
+  
+  <div class="modal-footer">
+    <button
+      *ngIf="type == 0"
+      type="button"
+      class="btn btn-default"
+      (click)="activeModal.close('OK')"
+    >
+      OK
+    </button>
+    <button
+      *ngIf="type == 1 || type == 2"
+      type="button"
+      class="btn btn-primary"
+      (click)="activeModal.close(Result('YES'))"
+    >
+      SIM
+    </button>
+    <button
+      *ngIf="type == 1 || type == 2"
+      type="button"
+      class="btn btn-danger"
+      (click)="activeModal.close(Result('NO'))"
+    >
+      NÃO
+    </button>
+    <button
+      *ngIf="type == 2"
+      type="button"
+      class="btn btn-default"
+      (click)="activeModal.close(Result('ESC'))"
+    >
+      CANCELAR
+    </button>
+  </div>
+  
