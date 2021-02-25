@@ -16,6 +16,8 @@ export module Enum{
     export enum ToastType {
       sucess = 1,
       error = 2,
+      info = 3,
+      warning = 4,
     };
 
 }

@@ -11,5 +11,7 @@ namespace Code7.Domain.Interfaces
         IEnumerable<TEntity> GetAll();
         bool Update(TEntity obj);
         bool Remove(Guid id);
+
+        IEnumerable<TEntity> GetByField(string field, string value);
     }
 }

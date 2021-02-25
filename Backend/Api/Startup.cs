@@ -13,6 +13,9 @@ using Code7.Domain.Interfaces;
 using Code7.Domain.Validators;
 using Code7.Domain.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api
 {
@@ -30,6 +33,8 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -47,6 +52,26 @@ namespace Api
                     f.RegisterValidatorsFromAssemblyContaining<CustomerValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<DebtValidator>();
                 });
+
+          
+            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -75,6 +100,7 @@ namespace Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -92,11 +118,13 @@ namespace Api
         private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IMongoContext, MongoContext>();
-
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDebtRepository, DebtRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDebtService, DebtService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { DebitService } from 'src/app/services/debit.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -7,13 +7,14 @@ import { Enum } from 'src/app/common/Enum';
 import { MessageBoxReturn } from 'src/app/common/MessageBoxReturn';
 import { Modal2Component } from '../components/modal2/modal2.component';
 import { Router } from '@angular/router';
+import { BasePage } from '../core/BasePage';
 
 @Component({
   selector: 'app-debits-list',
   templateUrl: './debits-list.component.html',
   styleUrls: ['./debits-list.component.css']
 })
-export class DebitsListComponent implements OnInit {
+export class DebitsListComponent extends BasePage implements OnInit {
 
   selectedCustomer: any;
   customers: any[] = [];
@@ -21,11 +22,13 @@ export class DebitsListComponent implements OnInit {
   currentDebit = null;
   currentIndex = -1;
 
-  constructor(private _debtService: DebitService,
+  constructor(
+    private _debtService: DebitService,
     private _customerService: CustomerService,
-    private _toastr: ToastrService,
-    private _modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,
+    injector: Injector) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     this.getDebts();
@@ -94,7 +97,7 @@ export class DebitsListComponent implements OnInit {
     return sumDebts;
   }
 
-  edit(index: any){
+  edit(index: any) {
     console.log(this.debts[index]);
     const debtId = this.debts[index].id
     this.router.navigate(['/register'], { queryParams: { debtId: debtId } })
@@ -118,7 +121,7 @@ export class DebitsListComponent implements OnInit {
           this.showToast(Enum.ToastType.error, 'Erro ao excluir registro.');
         }
       } catch (error) {
-          this.showToast(Enum.ToastType.error, 'Erro ao excluir registro.');
+        this.showToast(Enum.ToastType.error, 'Erro ao excluir registro.');
       }
 
 
@@ -126,58 +129,45 @@ export class DebitsListComponent implements OnInit {
     });
   }
 
-  protected ShowMessageBox(
-    message: string,
-    title: string,
-    option: Enum.enModalOptions,
-    command?: string,
-    callback?: (result: MessageBoxReturn) => void
-  ) {
-    /**
-     * Se irá utilizar o atalho esc ou não
-     * No caso de modal com SIM/Não não será liberado o uso do ESC.
-     */
-    const keyboard = option !== Enum.enModalOptions.enYES_NO ? true : false;
-    const modalRef = this._modalService.open(Modal2Component, {
-      backdrop: "static",
-      backdropClass: "light-blue-backdrop",
-      centered: true,
-      keyboard: keyboard
-    });
+  // protected ShowMessageBox(
+  //   message: string,
+  //   title: string,
+  //   option: Enum.enModalOptions,
+  //   command?: string,
+  //   callback?: (result: MessageBoxReturn) => void
+  // ) {
+  //   /**
+  //    * Se irá utilizar o atalho esc ou não
+  //    * No caso de modal com SIM/Não não será liberado o uso do ESC.
+  //    */
+  //   const keyboard = option !== Enum.enModalOptions.enYES_NO ? true : false;
+  //   const modalRef = this._modalService.open(Modal2Component, {
+  //     backdrop: "static",
+  //     backdropClass: "light-blue-backdrop",
+  //     centered: true,
+  //     keyboard: keyboard
+  //   });
 
-    modalRef.componentInstance.title = title == "" ? 'Informação' : title;
-    modalRef.componentInstance.message = message;
-    modalRef.componentInstance.type = option;
-    modalRef.componentInstance.command =
-      command === null || command === undefined ? "" : command;
+  //   modalRef.componentInstance.title = title == "" ? 'Informação' : title;
+  //   modalRef.componentInstance.message = message;
+  //   modalRef.componentInstance.type = option;
+  //   modalRef.componentInstance.command =
+  //     command === null || command === undefined ? "" : command;
 
-    // NÂO NECESSITA DE UMA RESPOSTA.
-    if (option === Enum.enModalOptions.enOK_ONLY) {
-      return;
-    }
+  //   // NÂO NECESSITA DE UMA RESPOSTA.
+  //   if (option === Enum.enModalOptions.enOK_ONLY) {
+  //     return;
+  //   }
 
-    modalRef.result.then(
-      data => { callback(data); },
-      reason => { callback(reason); }
-    );
-  }
+  //   modalRef.result.then(
+  //     data => { callback(data); },
+  //     reason => { callback(reason); }
+  //   );
+  // }
 
-  showToast(type: Enum.ToastType, message: string, title?: string) {
-
-    const toastOptions = { progressBar: true, positionClass: 'toast-top-full-width' };
-
-    switch (type) {
-      case Enum.ToastType.sucess:
-        this._toastr.success(message, title, toastOptions);
-        break;
-      default:
-        this._toastr.error(message, title, toastOptions);
-    }
-
-  }
-  getCustomerById(customerId: any): any{
+  getCustomerById(customerId: any): any {
     const customer = this.customers.find((value: any, index: number, obj: any[]) => {
-        if(value.id ==  customerId) return value;
+      if (value.id == customerId) return value;
     });
 
     return customer?.name;

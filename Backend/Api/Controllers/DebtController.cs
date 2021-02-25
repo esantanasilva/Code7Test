@@ -1,5 +1,6 @@
 ﻿using Code7.Domain.Interfaces;
 using Code7.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DebtController : ControllerBase
     {
         private IDebtService _debtService;

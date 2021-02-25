@@ -27,4 +27,6 @@ namespace Api.Controllers
             return $"Api Rodando em: {this.Request.Host} -  {DateTime.Now.ToLongDateString()}";
         }
     }
+
+
 }

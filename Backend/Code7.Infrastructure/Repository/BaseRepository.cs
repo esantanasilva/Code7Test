@@ -58,6 +58,10 @@ namespace Code7.Infrastructure.Repository
             var deleteResult = DbSet.DeleteOne(Builders<TEntity>.Filter.Eq("_id", id));
             return deleteResult.DeletedCount > 0;
         }
+        public IEnumerable<TEntity> GetByField(string field, string value)
+        {
+            return DbSet.Find(Builders<TEntity>.Filter.Eq(field, value)).ToList();
+        }
 
         public void Dispose()
         {
