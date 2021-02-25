@@ -24,15 +24,19 @@ All aplications can be Containerization with docker following the instructions b
 After runing docker-compose, the aplications will be running in the below url/ports:
 
 **Database**
-[MongoDB](http://localhost:27017)    
-[Mongo Express](http://localhost:8081)
+
+* [MongoDB](http://localhost:27017)    
+
+* [Mongo Express](http://localhost:8081)
 
 **Backend Application**
-[API](http://localhost:8082)
-[API Documentation](http://localhost:8082/swagger/index.html)
+
+* [API](http://localhost:8082)
+
+* [API Documentation](http://localhost:8082/swagger/index.html)
 
 **Frontend Application (Register and List customers debts)**
-[Frontend](http://localhost:8083)
+* [Frontend](http://localhost:8083)
 
 ## Manualy Installation
 
