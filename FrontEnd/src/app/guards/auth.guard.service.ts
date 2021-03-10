@@ -8,14 +8,10 @@ import { LoginService } from '../services/login.service';
 export class AuthGuardService implements CanActivate {
 
   constructor(public loginService: LoginService, public router: Router) {}
+
   canActivate(): boolean {
-
-    this.loginService.isLoggedIn();
     
-    this.loginService.loggedIn.subscribe(result => {
-      if (!result) {this.loginService.logout()}
-    });
-
+    this.loginService.checkLogin();
 
     return true;
   }

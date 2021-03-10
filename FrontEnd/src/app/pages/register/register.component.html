@@ -3,8 +3,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h4>Login</h4>
-                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <h4>Registrar Novo Usuário</h4>
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
                     <div class="mb-3">
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
@@ -30,13 +30,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="passwordCheck" class="form-label">Confirmar password</label>
+                            <input type="password" 
+                            formControlName="passwordCheck" 
+                            class="form-control" 
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                            <div *ngIf="submitted && f.passwordCheck.errors" class="invalid-feedback">
+                                <div *ngIf="f.passwordCheck.errors.required">Confirme o password</div>
+                                <div *ngIf="f.passwordCheck.errors.passwordCheck">As senhas devem ser iguais</div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="row g-3">
                         <div class="col-auto">
-                            <button type="button" [disabled]="loginForm.invalid" class="btn btn-success" (click)="login()">Login</button>
+                            <button type="button" [disabled]="registerForm.invalid" class="btn btn-success" (click)="register()">Registar</button>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-link" (click)="navigateToRegister()">Registrar</button>
+                            <button type="button" class="btn btn-secondary" (click)="backToLogin()">Voltar</button>
                         </div>
                     </div>
                 </form>

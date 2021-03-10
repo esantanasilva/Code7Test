@@ -16,8 +16,11 @@ export class LoginService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  create(data) {
-    return this.http.post(`${baseUrl}/register`, data);
+  async create(data): Promise<boolean> {
+    const result: any = await this.http.post(`${baseUrl}/register`, data).toPromise();
+    if(result){
+      return new Promise(resolve => result);
+    }
   }
 
   async authenticate(data): Promise<boolean> {
@@ -36,9 +39,6 @@ export class LoginService {
     } catch (error) {
       console.log(error)
     }
-
-
-
   }
 
   getToken(): string {
@@ -47,18 +47,22 @@ export class LoginService {
 
 
   public logout() {
-    this.loggedIn.next(false);
     localStorage.removeItem('access_token');
     this.router.navigate(['login']);
+    this.loggedIn.next(false);
   }
 
-  isLoggedIn(): boolean {
+  checkLogin(): boolean {
     if(this.getToken() == '') {
-      this.loggedIn.next(false);
+      this.logout();
       return false;
     }
 
     this.loggedIn.next(true);
     return true;
+  }
+
+  public registerNewUser(){
+    this.router.navigate(['register-user']);
   }
 }

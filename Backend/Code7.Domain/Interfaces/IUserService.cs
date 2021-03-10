@@ -8,5 +8,7 @@ namespace Code7.Domain.Interfaces
     public interface IUserService : IService<User>
     {
         bool Authenticate(User user);
+        User GetByEmail(string email);
+
     }
 }

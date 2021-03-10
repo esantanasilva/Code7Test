@@ -32,5 +32,11 @@ namespace Code7.Service.Services
 
             return verified;
         }
+
+        public User GetByEmail(string email)
+        {
+            var user = _userRepository.GetByField("Email", email).SingleOrDefault();
+            return user;
+        }
     }
 }

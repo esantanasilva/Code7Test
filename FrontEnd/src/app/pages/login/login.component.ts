@@ -57,6 +57,9 @@ export class LoginComponent extends BasePage implements OnInit {
       this.showToast(Enum.ToastType.error, 'Falha ao realizar o login');
 
   }
+  navigateToRegister(){
+    this._loginService.registerNewUser();
+  }
 
 
 }

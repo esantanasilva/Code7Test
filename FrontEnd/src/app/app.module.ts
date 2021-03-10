@@ -19,6 +19,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LoginService } from './services/login.service';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { HomeComponent } from './pages/home/home.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -29,7 +30,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     RegisterDebtComponent,
     Modal2Component,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,

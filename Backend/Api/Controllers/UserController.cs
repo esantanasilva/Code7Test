@@ -43,12 +43,20 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("register")]
-        public User Post([FromBody] User value)
+        public ActionResult<User> Post([FromBody] User value)
         {
+
+            var duplicated = _userService.GetByEmail(value.Email);
+
+            if(duplicated != null)
+            {
+                return BadRequest();
+            }
+
             var inserted =  _userService.Add(value);
             if (inserted != null) inserted.Password = "";
 
-            return inserted;
+            return new ActionResult<User>(inserted);
         }
     }
 }
