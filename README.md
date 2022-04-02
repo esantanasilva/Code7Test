@@ -1,8 +1,8 @@
 # Api (netcore 3.1) + frontend (Angular 9) + MongoDB
 
-This project containing an Api developed in .netcore 3.1, an frontend application developed in Angular 9 and MongoDb as database.
+This project containing an Api developed in .netcore 3.1, frontend application developed in Angular 9 and MongoDb as database.
 
-All aplications can be Containerization with docker following the instructions below:
+All aplications can be Containerized with docker following the below instructions:
 
 ## Getting Started
 ### Prerequisites
@@ -21,7 +21,7 @@ All aplications can be Containerization with docker following the instructions b
    docker-compose -f "docker-compose.yml" up -d --build
    ```
 
-After runing docker-compose, the aplications will be running in the below url/ports:
+After runing docker-compose, the applications will be running in the below url/ports:
 
 **Database**
 
